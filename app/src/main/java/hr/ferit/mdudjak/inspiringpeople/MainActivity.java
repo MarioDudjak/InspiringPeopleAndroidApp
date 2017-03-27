@@ -1,12 +1,10 @@
 package hr.ferit.mdudjak.inspiringpeople;
 
-import android.content.Context;
-import android.content.res.Configuration;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
-import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,18 +24,7 @@ public class MainActivity extends AppCompatActivity {
     InspiringPeople second_person;
     InspiringPeople third_person;
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Checks the orientation of the screen
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
-            Log.d("Mario","landscape");
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
-            Log.d("Mario","portrait");
-        }
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +32,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initializeUI();
     }
-
-
-
-
 
     public void initializeUI() {
         this.firstTextView = (TextView) findViewById(R.id.TextView1);
@@ -63,13 +46,34 @@ public class MainActivity extends AppCompatActivity {
         this.secondTextView.setMovementMethod(new ScrollingMovementMethod());
         this.thirdTextView.setMovementMethod(new ScrollingMovementMethod());
 
+        firstTextView.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event){
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+        secondTextView.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event){
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+        thirdTextView.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event){
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
         first_person = new InspiringPeople(getResources().getString(R.string.firstman), getResources().getString(R.string.firstman_quote));
         second_person = new InspiringPeople(getResources().getString(R.string.secondman),getResources().getString(R.string.secondman_quote));
         third_person = new InspiringPeople(getResources().getString(R.string.thirdman),getResources().getString(R.string.thirdman_quote));
 
         /*Moglo se samo definirati 3 objekta za svaku klasu, pa pomoću set metoda postaviti varijable text i quote, ali izabrao sam konstruktor.
          Mislim da je krajnji rezultat jednak. */
-
 
 
         this.firstImageView.setOnClickListener(new View.OnClickListener() {
